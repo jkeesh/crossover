@@ -6,8 +6,6 @@ var Slider = require("bootstrap-slider");
 
 var c3 = require('c3');
 
-
-
 var INTEREST_RATE = 0.05;
 var STARTING_CAPITAL = 50000;
 var MONTHLY_INVESTMENT = 2500;
