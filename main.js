@@ -4,6 +4,10 @@ var $ = jQuery = require('jquery');
 var bootstrap = require('bootstrap');
 var Slider = require("bootstrap-slider");
 
+var c3 = require('c3');
+
+
+
 var INTEREST_RATE = 0.05;
 var STARTING_CAPITAL = 50000;
 var MONTHLY_INVESTMENT = 2500;
@@ -102,6 +106,10 @@ function update_table_for_values(values){
   }
 }
 
+function getVal(id) {
+  return parseFloat($(id).val());
+}
+
 
 // Update once on start
 update_table_for_values({
@@ -124,4 +132,84 @@ $("#update_chart").click(function() {
         monthly_investment: monthly_investment,
         interest_rate: interest_rate
     });
+
+    interestChart.load({
+      columns: getInterestRateChartData()
+    });
+
+    monthlyInvestmentChart.load({
+      columns: getMonthlyInvestmentChartData()
+    });
 });
+
+function getInterestRateChartData(){
+  // Get the interest rates for the x axis
+  var interest_rates = [];
+  for(var i = 1; i <= 20; i ++){
+    interest_rates.push(0.01 * i);
+  }
+  console.log(interest_rates);
+
+  var years_to_crossover = [];
+  for(var i = 0; i < interest_rates.length; i++){
+    var graph_parameters = {
+      starting_capital: getVal('#starting_capital'),
+      monthly_expenses: getVal('#monthly_expenses'),
+      monthly_investment: getVal('#monthly_investment'),
+      interest_rate: interest_rates[i]
+    }
+    var years_to_cross = crossover.compute_years_to_crossover(graph_parameters);
+    years_to_crossover.push(years_to_cross);
+  }
+
+  // Add the title at the start
+  interest_rates.splice(0, 0, "interest_rate");
+  years_to_crossover.splice(0, 0, "years_to_crossover");
+
+  return [interest_rates, years_to_crossover];
+}
+
+function getMonthlyInvestmentChartData(){
+  // Get the interest rates for the x axis
+  var monthly_investments = [];
+  for(var i = 1; i <= 50; i ++){
+    monthly_investments.push(100 * i);
+  }
+
+  var years_to_crossover = [];
+  for(var i = 0; i < monthly_investments.length; i++){
+    var graph_parameters = {
+      starting_capital: getVal('#starting_capital'),
+      monthly_expenses: getVal('#monthly_expenses'),
+      monthly_investment: monthly_investments[i],
+      interest_rate: getVal('#rate')
+    }
+    var years_to_cross = crossover.compute_years_to_crossover(graph_parameters);
+    years_to_crossover.push(years_to_cross);
+  }
+
+  // Add the title at the start
+  monthly_investments.splice(0, 0, "monthly_investment");
+  years_to_crossover.splice(0, 0, "years_to_crossover");
+
+  return [monthly_investments, years_to_crossover];
+}
+
+
+var interestChart = c3.generate({
+    bindto: '#interestChart',
+    data: {
+        x: 'interest_rate',
+        columns: getInterestRateChartData()
+    }
+});
+
+var monthlyInvestmentChart = c3.generate({
+    bindto: '#monthlyInvestmentChart',
+    data: {
+        x: 'monthly_investment',
+        columns: getMonthlyInvestmentChartData()
+    }
+});
+
+
