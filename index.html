@@ -1,0 +1,54 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row col-md-6">
+        <div class="alert alert-success" role="alert">Long Term Rate</div>
+        <input id="rate_slider">
+        <input id="rate" type="text" class="form-control" placeholder="Interest Rate">
+
+        <br><br>
+
+        <div class="alert alert-success" role="alert">Starting Capital</div>
+        <input id="starting_capital_slider">
+        <input id="starting_capital" type="text" class="form-control" placeholder="Starting Capital">
+
+        <br><br>
+
+        <div class="alert alert-success" role="alert">Monthly Investment</div>
+        <input id="monthly_investment_slider">
+        <input id="monthly_investment" type="text" class="form-control" placeholder="Monthly Investment">
+
+        <br><br>
+
+        <div class="alert alert-success" role="alert">Monthly Expenses</div>
+        <input id="monthly_expenses_slider">
+        <input id="monthly_expenses" type="text" class="form-control" placeholder="Monthly Expenses">
+
+        <button id="update_chart" type="button" class="btn btn-primary">Update</button>
+    </div>
+    <div class="row col-md-6">
+        <table id="capital"
+            class="table table-striped table-bordered">
+        <tr>
+            <th>Year</th>
+            <th>Current Capital</th>
+            <th>Investment Income</th>
+        </tr>
+        </table>
+    </div>
+</div>
+
+<script src="bundle.js"></script>
+
+</body>
+
+</html>
